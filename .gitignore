@@ -4,6 +4,7 @@
 .gradle
 
 build
+ssl
 
 .DS_Store
 
