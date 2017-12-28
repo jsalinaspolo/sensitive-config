@@ -5,14 +5,14 @@ import com.bettercloud.vault.VaultException;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.sensitiveconfig.parser.ConfigurationParser;
 import com.sensitiveconfig.vault.SSLUtils;
 import com.sensitiveconfig.vault.VaultContainer;
 import com.senstiveconfig.config.VaultConfiguration;
 import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
 import com.senstiveconfig.service.SensitiveConfigValuePlainTextService;
 import com.senstiveconfig.service.SensitiveConfigValueVaultService;
-import com.senstiveconfig.vault.VaultApiFactory;
+import com.senstiveconfig.vault.VaultClient;
+import com.senstiveconfig.vault.VaultConfigFactory;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -49,27 +49,34 @@ public class ServiceConfigurationShould {
   @Test
   public void shouldParseSensitiveConfiguration() throws IOException, VaultException {
     String secretPath = "secret/env/password";
-    final String value = "decryptedPassword";
-    final Vault vault = container.getRootVault();
+    String value = "decryptedPassword";
+    Vault vault = container.getRootVault();
 
     vault.logical().write(secretPath, Collections.singletonMap("value", value));
 
-    SensitiveConfigValueVaultService sensitiveConfigValueVaultService = new SensitiveConfigValueVaultService(new VaultApiFactory());
-    SensitiveConfigValueDelegatingService sensitiveConfigValueDelegatingService = new SensitiveConfigValueDelegatingService(
-      Arrays.asList(sensitiveConfigValueVaultService, new SensitiveConfigValuePlainTextService())
-    );
+    VaultConfiguration vaultConfiguration = ConfigurationParser.withVaultConfiguration().createConfiguration("service.yml", VaultConfiguration.class);
+    VaultClient vaultClient = new VaultClient(vaultConfiguration, new VaultConfigFactory());
 
-    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory())
-      .setInjectableValues(new InjectableValues.Std().addValue(SensitiveConfigValueDelegatingService.class, sensitiveConfigValueDelegatingService));
+    hackConfiguration(vaultClient);
+    SensitiveConfigValueVaultService sensitiveConfigValueVaultService = new SensitiveConfigValueVaultService(vaultClient);
+
+    SensitiveConfigValueDelegatingService sensitiveConfigValueDelegatingService = new SensitiveConfigValueDelegatingService(Arrays.asList(sensitiveConfigValueVaultService, new SensitiveConfigValuePlainTextService()));
+
+    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+    objectMapper.setInjectableValues(new InjectableValues.Std().addValue(SensitiveConfigValueDelegatingService.class, sensitiveConfigValueDelegatingService));
 
     ConfigurationParser configurationParser = new ConfigurationParser(objectMapper);
     ServiceConfiguration serviceConfiguration = configurationParser.createConfiguration("service.yml", ServiceConfiguration.class);
 
-    VaultConfiguration configuration = new VaultTestConfiguration(container.getAddress(), tokenFileLocation);
-    sensitiveConfigValueVaultService.setConfiguration(configuration);
-
+    //needs to be change as needs to get the address of the container, tokenLocation, sslPath
     assertThat(serviceConfiguration.getEncryptedText().getSensitive()).isEqualTo("VAULT(/" + secretPath + ")");
     assertThat(serviceConfiguration.getEncryptedText().getDecryptedValue().getClearText()).isEqualTo(value.toCharArray());
+  }
+
+
+  private void hackConfiguration(VaultClient vaultClient) {
+    VaultConfiguration configuration = new VaultTestConfiguration(container.getAddress(), tokenFileLocation);
+    vaultClient.setVaultConfiguration(configuration);
   }
 
   public class VaultTestConfiguration extends VaultConfiguration {

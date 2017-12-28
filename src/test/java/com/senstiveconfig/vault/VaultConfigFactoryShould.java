@@ -1,6 +1,6 @@
 package com.senstiveconfig.vault;
 
-import com.bettercloud.vault.Vault;
+import com.bettercloud.vault.VaultConfig;
 import com.bettercloud.vault.VaultException;
 import com.senstiveconfig.config.VaultConfiguration;
 import org.junit.Before;
@@ -16,14 +16,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class VaultApiFactoryShould {
+public class VaultConfigFactoryShould {
 
   private static final String FILE_LOCATION_THAT_DOES_NOT_EXIST = "/tmp/file-does-not-exist";
   private static final String VAULT_SERVER_URL = "http://127.0.0.1:8200";
   private String tokenFileLocation;
-  private VaultConfiguration vaultConfiguration = mock(VaultConfiguration.class);
-
-  private final VaultApiFactory underTest = new VaultApiFactory();
+  private final VaultConfiguration vaultConfiguration = mock(VaultConfiguration.class);
+  private final VaultConfigFactory underTest = new VaultConfigFactory();
 
   @Before
   public void initialise() throws IOException {
@@ -40,10 +39,10 @@ public class VaultApiFactoryShould {
     when(vaultConfiguration.getTokenPath()).thenReturn(FILE_LOCATION_THAT_DOES_NOT_EXIST);
 
     try {
-      underTest.createVaultAPI(vaultConfiguration);
+      underTest.createConfigFrom(vaultConfiguration);
       fail("Expected VaultException");
-    } catch (VaultException ve) {
-      assertThat(ve.getLocalizedMessage()).isEqualTo("java.nio.file.NoSuchFileException: /tmp/file-does-not-exist");
+    } catch (VaultException e) {
+      assertThat(e.getLocalizedMessage()).isEqualTo("java.nio.file.NoSuchFileException: /tmp/file-does-not-exist");
     }
   }
 
@@ -52,9 +51,9 @@ public class VaultApiFactoryShould {
     when(vaultConfiguration.getAddress()).thenReturn(VAULT_SERVER_URL);
     when(vaultConfiguration.getTokenPath()).thenReturn(tokenFileLocation);
 
-    Vault vaultAPI = underTest.createVaultAPI(vaultConfiguration);
+    VaultConfig vaultConf = underTest.createConfigFrom(vaultConfiguration);
 
     assertThat(new File(tokenFileLocation).exists()).isTrue();
-    assertThat(vaultAPI).isNotNull();
+    assertThat(vaultConf).isNotNull();
   }
 }

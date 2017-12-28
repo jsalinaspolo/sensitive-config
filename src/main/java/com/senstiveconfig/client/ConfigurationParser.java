@@ -1,9 +1,10 @@
-package com.sensitiveconfig.parser;
+package com.senstiveconfig.client;
 
-import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
+import com.senstiveconfig.config.VaultConfiguration;
+import com.senstiveconfig.config.VaultConfigurationDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +47,10 @@ public class ConfigurationParser {
     return new FileInputStream(file);
   }
 
-  public static ConfigurationParser forSensitiveConfigValue(SensitiveConfigValueDelegatingService sensitiveConfigValueDelegatingService) {
+  public static ConfigurationParser withVaultConfiguration() {
     ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory())
-      .setInjectableValues(new InjectableValues.Std().addValue(SensitiveConfigValueDelegatingService.class, sensitiveConfigValueDelegatingService));
+      .registerModule(new SimpleModule()
+        .addDeserializer(VaultConfiguration.class, new VaultConfigurationDeserializer()));
 
     return new ConfigurationParser(objectMapper);
   }

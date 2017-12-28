@@ -1,7 +1,7 @@
 package com.senstiveconfig.config;
 
 
-public interface SensitiveConfigurationValues {
+public interface SensitiveVaultConfiguration {
 
   VaultConfiguration getVaultConfiguration();
 }

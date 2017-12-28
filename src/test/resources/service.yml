@@ -1,4 +1,4 @@
-
+---
 encryptedText: "VAULT(/secret/env/password)"
 
 vaultConfiguration:

@@ -2,10 +2,10 @@ package com.sensitiveconfig;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.senstiveconfig.config.SensitiveConfigValue;
-import com.senstiveconfig.config.SensitiveConfigurationValues;
+import com.senstiveconfig.config.SensitiveVaultConfiguration;
 import com.senstiveconfig.config.VaultConfiguration;
 
-public class ServiceConfiguration implements SensitiveConfigurationValues {
+public class ServiceConfiguration implements SensitiveVaultConfiguration {
 
   @JsonProperty
   private SensitiveConfigValue encryptedText;

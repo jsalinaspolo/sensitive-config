@@ -29,22 +29,28 @@ repositories {
   jcenter()
 }
 
+ext{
+  jacksonVersion = '2.9.3'
+}
+
 dependencies {
   compile "com.bettercloud:vault-java-driver:3.0.0"
 
-  compile "com.fasterxml.jackson.core:jackson-annotations:2.9.3"
+  compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+
   compile "org.slf4j:slf4j-api:1.7.22"
   compile "ch.qos.logback:logback-classic:1.1.8"
 
   testCompile "junit:junit:4.12"
   testCompile "org.assertj:assertj-core:3.6.1"
   testCompile "org.mockito:mockito-core:1.10.19"
-  testCompile('com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.3')
-  testCompile('com.fasterxml.jackson.core:jackson-databind:2.9.3')
 
-  testCompile('org.testcontainers:testcontainers:1.4.3')
-  testCompile('org.bouncycastle:bcprov-jdk15on:1.58')
-  testCompile('org.bouncycastle:bcpkix-jdk15on:1.58')
+  testCompile "org.testcontainers:testcontainers:1.4.3"
+  testCompile "org.bouncycastle:bcprov-jdk15on:1.58"
+  testCompile "org.bouncycastle:bcpkix-jdk15on:1.58"
 }
 
 apply plugin: "jacoco"
