@@ -2,7 +2,12 @@
 encryptedText: "VAULT(/secret/env/password)"
 
 vaultConfiguration:
-  address: "http://127.0.0.1:8200" #needs to be commented for the integration test
-  tokenPath: "/test/token"
+#  address: "http://127.0.0.1:8200" #needs to get env variable because docker container
+#  tokenPath: "/test/token"         #needs to get env variable
+  openTimeout: 5
+  readTimeout: 30
+  sslPemFilePath: /tmp/ssl/client-cert.pem  #written in the test path: SSLUtils.CLIENT_CERT_PEMFILE
+  sslVerify: false
+
 
 

@@ -6,16 +6,12 @@ import com.bettercloud.vault.VaultException;
 import com.senstiveconfig.config.VaultConfiguration;
 
 public class VaultClient {
-  private VaultConfiguration vaultConfiguration;
+  private final VaultConfiguration vaultConfiguration;
   private final VaultConfigFactory vaultConfigFactory;
 
   public VaultClient(VaultConfiguration vaultConfiguration, VaultConfigFactory vaultConfigFactory) {
     this.vaultConfiguration = vaultConfiguration;
     this.vaultConfigFactory = vaultConfigFactory;
-  }
-
-  public void setVaultConfiguration(VaultConfiguration vaultConfiguration) {
-    this.vaultConfiguration = vaultConfiguration;
   }
 
   protected Vault createVaultAPI() throws VaultException {

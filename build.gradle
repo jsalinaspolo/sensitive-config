@@ -50,6 +50,7 @@ dependencies {
   testCompile "com.jspcore:logcapture:0.4.3"
 
   testCompile "org.testcontainers:testcontainers:1.4.3"
+  testCompile "com.github.stefanbirkner:system-rules:1.17.0"
   testCompile "org.bouncycastle:bcprov-jdk15on:1.58"
   testCompile "org.bouncycastle:bcpkix-jdk15on:1.58"
 }

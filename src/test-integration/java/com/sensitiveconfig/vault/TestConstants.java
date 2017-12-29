@@ -10,7 +10,8 @@ interface TestConstants {
   int MAX_RETRIES = 5;
   int RETRY_MILLIS = 1000;
 
-  String CURRENT_WORKING_DIRECTORY = System.getProperty("user.dir");
+//  String CURRENT_WORKING_DIRECTORY = System.getProperty("user.dir");
+  String CURRENT_WORKING_DIRECTORY = "/tmp";
   String SSL_DIRECTORY = CURRENT_WORKING_DIRECTORY + File.separator + "ssl";
   String CERT_PEMFILE = SSL_DIRECTORY + File.separator + "root-cert.pem";
 
