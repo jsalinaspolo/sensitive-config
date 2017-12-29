@@ -52,6 +52,54 @@ public class VaultClientShould {
       .hasCause(expected);
   }
 
+  @Test
+  public void handleVaultExceptionWithStatusCode0() throws VaultException {
+    Logical logical = mock(Logical.class);
+    when(vault.logical()).thenReturn(logical);
+
+    VaultException expected = new VaultException("expected", 0);
+    when(logical.read(SOME_PATH)).thenThrow(expected);
+
+    assertThatThrownBy(() -> underTest.read(SOME_PATH, VALUE_KEY))
+      .hasMessage("Unable to connect to vault '" + vaultConfiguration.getAddress() + "': the path '" + SOME_PATH + "'");
+  }
+
+  @Test
+  public void handleVaultExceptionWithStatusCode403() throws VaultException {
+    Logical logical = mock(Logical.class);
+    when(vault.logical()).thenReturn(logical);
+
+    VaultException expected = new VaultException("expected", 403);
+    when(logical.read(SOME_PATH)).thenThrow(expected);
+
+    assertThatThrownBy(() -> underTest.read(SOME_PATH, VALUE_KEY))
+      .hasMessage("Connected to '" + vaultConfiguration.getAddress() + "': unable to read secret '" + SOME_PATH + "'");
+  }
+
+  @Test
+  public void handleVaultExceptionWithStatusCode404() throws VaultException {
+    Logical logical = mock(Logical.class);
+    when(vault.logical()).thenReturn(logical);
+
+    VaultException expected = new VaultException("expected", 404);
+    when(logical.read(SOME_PATH)).thenThrow(expected);
+
+    assertThatThrownBy(() -> underTest.read(SOME_PATH, VALUE_KEY))
+      .hasMessage("Connected to '" + vaultConfiguration.getAddress() + "': unable to read secret '" + SOME_PATH + "'");
+  }
+
+  @Test
+  public void handleVaultExceptionWithOthersStatusCode() throws VaultException {
+    Logical logical = mock(Logical.class);
+    when(vault.logical()).thenReturn(logical);
+
+    VaultException expected = new VaultException("expected", 300);
+    when(logical.read(SOME_PATH)).thenThrow(expected);
+
+    assertThatThrownBy(() -> underTest.read(SOME_PATH, VALUE_KEY))
+      .hasMessage("HTTP status " + 300 + ". Could not retrieve from Vault '" + vaultConfiguration.getAddress() + "': the path '" + SOME_PATH + "'");
+  }
+
   class VaultClientStub extends VaultClient {
 
     public VaultClientStub(VaultConfiguration vaultConfiguration, VaultConfigFactory vaultConfigFactory) {
