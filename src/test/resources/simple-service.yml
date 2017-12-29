@@ -1,0 +1,8 @@
+---
+field: "value"
+
+vaultConfiguration:
+  address: "http://127.0.0.1:8200"
+  tokenPath: "/tmp/token"
+
+

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.sensitiveconfig.vault.SSLUtils;
 import com.sensitiveconfig.vault.VaultContainer;
+import com.senstiveconfig.client.ConfigurationParser;
+import com.senstiveconfig.config.ServiceConfiguration;
 import com.senstiveconfig.config.VaultConfiguration;
 import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
 import com.senstiveconfig.service.SensitiveConfigValuePlainTextService;
