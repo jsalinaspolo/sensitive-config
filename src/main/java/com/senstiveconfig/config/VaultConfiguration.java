@@ -2,8 +2,6 @@ package com.senstiveconfig.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Objects;
-
 public class VaultConfiguration {
 
   @JsonProperty
@@ -76,23 +74,5 @@ public class VaultConfiguration {
    */
   public Boolean getSslVerify() {
     return sslVerify;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    VaultConfiguration that = (VaultConfiguration) o;
-    return Objects.equals(address, that.address) &&
-      Objects.equals(tokenPath, that.tokenPath) &&
-      Objects.equals(openTimeout, that.openTimeout) &&
-      Objects.equals(readTimeout, that.readTimeout) &&
-      Objects.equals(sslPemFilePath, that.sslPemFilePath) &&
-      Objects.equals(sslVerify, that.sslVerify);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(address, tokenPath, openTimeout, readTimeout, sslPemFilePath, sslVerify);
   }
 }
