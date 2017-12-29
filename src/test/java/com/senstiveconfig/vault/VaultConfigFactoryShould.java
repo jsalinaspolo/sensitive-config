@@ -47,7 +47,7 @@ public class VaultConfigFactoryShould {
   }
 
   @Test
-  public void readsTokenFileWhenItExists() throws VaultException {
+  public void readTokenFileWhenItExists() throws VaultException {
     when(vaultConfiguration.getAddress()).thenReturn(VAULT_SERVER_URL);
     when(vaultConfiguration.getTokenPath()).thenReturn(tokenFileLocation);
 
@@ -55,5 +55,20 @@ public class VaultConfigFactoryShould {
 
     assertThat(new File(tokenFileLocation).exists()).isTrue();
     assertThat(vaultConf).isNotNull();
+    assertThat(vaultConf.getSslConfig().isVerify()).isTrue();
+  }
+
+  @Test
+  public void readSSLConfigWhenItExists() throws VaultException {
+    when(vaultConfiguration.getAddress()).thenReturn(VAULT_SERVER_URL);
+    when(vaultConfiguration.getTokenPath()).thenReturn(tokenFileLocation);
+    when(vaultConfiguration.getSslPemFilePath()).thenReturn(tokenFileLocation);
+    when(vaultConfiguration.getSslVerify()).thenReturn(false);
+
+    VaultConfig vaultConf = underTest.createConfigFrom(vaultConfiguration);
+
+    assertThat(new File(tokenFileLocation).exists()).isTrue();
+    assertThat(vaultConf).isNotNull();
+    assertThat(vaultConf.getSslConfig().isVerify()).isFalse();
   }
 }
