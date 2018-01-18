@@ -1,10 +1,8 @@
-package com.senstiveconfig.client;
+package com.senstiveconfig.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.senstiveconfig.config.VaultConfiguration;
-import com.senstiveconfig.config.VaultConfigurationDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

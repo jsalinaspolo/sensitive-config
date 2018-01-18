@@ -1,7 +1,7 @@
 package com.senstiveconfig.service;
 
 
-import com.senstiveconfig.client.DecryptedValue;
+import com.senstiveconfig.config.DecryptedValue;
 import com.senstiveconfig.vault.VaultClient;
 
 import java.util.regex.Matcher;

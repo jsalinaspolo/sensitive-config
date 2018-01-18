@@ -1,6 +1,6 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedValue;
+import com.senstiveconfig.config.DecryptedValue;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;

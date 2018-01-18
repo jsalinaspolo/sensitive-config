@@ -1,4 +1,4 @@
-package com.senstiveconfig.client;
+package com.senstiveconfig.config;
 
 public final class DecryptedValue {
 

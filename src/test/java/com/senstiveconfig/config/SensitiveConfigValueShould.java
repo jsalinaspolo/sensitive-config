@@ -1,6 +1,5 @@
 package com.senstiveconfig.config;
 
-import com.senstiveconfig.client.DecryptedValue;
 import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
 import org.junit.Test;
 

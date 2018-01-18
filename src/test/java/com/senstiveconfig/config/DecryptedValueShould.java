@@ -1,5 +1,6 @@
-package com.senstiveconfig.client;
+package com.senstiveconfig.config;
 
+import com.senstiveconfig.config.DecryptedValue;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

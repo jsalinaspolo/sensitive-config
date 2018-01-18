@@ -1,4 +1,4 @@
-package com.senstiveconfig.client;
+package com.senstiveconfig.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.InjectableValues;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.logcapture.junit.LogCaptureRule;
+import com.senstiveconfig.config.ConfigurationParser;
 import com.senstiveconfig.config.SensitiveVaultConfiguration;
 import com.senstiveconfig.config.ServiceConfiguration;
 import com.senstiveconfig.config.VaultConfiguration;
