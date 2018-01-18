@@ -1,6 +1,6 @@
 package com.senstiveconfig.config;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
 import org.junit.Test;
 
@@ -13,20 +13,20 @@ import static org.mockito.Mockito.when;
 public class SensitiveConfigValueShould {
 
   private static final String SENSITIVE = "secret/value";
-  private final DecryptedPassword decryptedPassword = mock(DecryptedPassword.class);
+  private final DecryptedValue decryptedValue = new DecryptedValue("value".toCharArray());
   private final SensitiveConfigValueDelegatingService sensitiveConfigValueDelegatingService = mock(SensitiveConfigValueDelegatingService.class);
 
   private final SensitiveConfigValue underTest = new SensitiveConfigValue(sensitiveConfigValueDelegatingService, SENSITIVE);
 
   @Test
-  public void checksCached() throws Exception {
-    when(sensitiveConfigValueDelegatingService.retrieveSecret(SENSITIVE)).thenReturn(decryptedPassword);
+  public void checksCached() {
+    when(sensitiveConfigValueDelegatingService.retrieveSecret(SENSITIVE)).thenReturn(decryptedValue);
 
-    DecryptedPassword retrievedFirstTime = underTest.getDecryptedValue();
-    DecryptedPassword retrievedSecondTime = underTest.getDecryptedValue();
+    DecryptedValue retrievedFirstTime = underTest.getDecryptedValue();
+    DecryptedValue retrievedSecondTime = underTest.getDecryptedValue();
 
-    assertThat(retrievedFirstTime).isEqualTo(decryptedPassword);
-    assertThat(retrievedSecondTime).isEqualTo(decryptedPassword);
+    assertThat(retrievedFirstTime).isEqualTo(decryptedValue);
+    assertThat(retrievedSecondTime).isEqualTo(decryptedValue);
 
     verify(sensitiveConfigValueDelegatingService, times(1)).retrieveSecret(SENSITIVE);
   }

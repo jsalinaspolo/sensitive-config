@@ -1,6 +1,6 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 
 import java.util.Collection;
 
@@ -12,7 +12,7 @@ public class SensitiveConfigValueDelegatingService {
     this.sensitiveConfigValueServices = sensitiveConfigValueServices;
   }
 
-  public DecryptedPassword retrieveSecret(String secretPath) {
+  public DecryptedValue retrieveSecret(String secretPath) {
     return sensitiveConfigValueServices.stream()
       .filter(service -> service.matches(secretPath))
       .findFirst()

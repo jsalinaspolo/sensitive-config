@@ -1,12 +1,12 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 
 public class SensitiveConfigValuePlainTextService implements SensitiveConfigValueService {
 
   @Override
-  public DecryptedPassword retrieveSecret(String secret) {
-    return new DecryptedPassword(secret.toCharArray());
+  public DecryptedValue retrieveSecret(String secret) {
+    return new DecryptedValue(secret.toCharArray());
   }
 
   @Override

@@ -1,6 +1,6 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 public class SensitiveConfigValueDelegatingServiceShould {
   private static final String SECRET = "BobbyP";
-  private static final DecryptedPassword DECRYPTED_PASSWORD = new DecryptedPassword(SECRET.toCharArray());
+  private static final DecryptedValue DECRYPTED_PASSWORD = new DecryptedValue(SECRET.toCharArray());
   private final SensitiveConfigValueService sensitiveConfigValueService = mock(SensitiveConfigValueService.class);
   private final SensitiveConfigValueDelegatingService underTest = new SensitiveConfigValueDelegatingService(asList(sensitiveConfigValueService));
 
@@ -19,7 +19,7 @@ public class SensitiveConfigValueDelegatingServiceShould {
     when(sensitiveConfigValueService.matches(SECRET)).thenReturn(true);
     when(sensitiveConfigValueService.retrieveSecret(SECRET)).thenReturn(DECRYPTED_PASSWORD);
 
-    DecryptedPassword result = underTest.retrieveSecret(SECRET);
+    DecryptedValue result = underTest.retrieveSecret(SECRET);
     assertThat(result).isEqualTo(DECRYPTED_PASSWORD);
   }
 

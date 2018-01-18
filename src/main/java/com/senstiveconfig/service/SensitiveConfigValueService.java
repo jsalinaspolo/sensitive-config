@@ -1,10 +1,10 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 
 public interface SensitiveConfigValueService {
 
-  DecryptedPassword retrieveSecret(String secret);
+  DecryptedValue retrieveSecret(String secret);
 
   boolean matches(String secret);
 }

@@ -73,6 +73,6 @@ public class ServiceConfigurationShould {
     ServiceConfiguration serviceConfiguration = configurationParser.createConfiguration("service.yml", ServiceConfiguration.class);
 
     assertThat(serviceConfiguration.getEncryptedText().getSensitive()).isEqualTo("VAULT(/" + secretPath + ")");
-    assertThat(serviceConfiguration.getEncryptedText().getDecryptedValue().getClearText()).isEqualTo(value.toCharArray());
+    assertThat(serviceConfiguration.getEncryptedText().getDecryptedValue().clearText()).isEqualTo(value);
   }
 }

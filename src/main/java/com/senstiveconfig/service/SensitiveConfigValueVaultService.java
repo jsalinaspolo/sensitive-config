@@ -1,7 +1,7 @@
 package com.senstiveconfig.service;
 
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 import com.senstiveconfig.vault.VaultClient;
 
 import java.util.regex.Matcher;
@@ -23,14 +23,13 @@ public class SensitiveConfigValueVaultService implements SensitiveConfigValueSer
   }
 
   @Override
-  public DecryptedPassword retrieveSecret(String secret) {
+  public DecryptedValue retrieveSecret(String secret) {
     Matcher matcher = PATTERN.matcher(secret);
     if (!matcher.matches()) {
       // Should never get here since we expect matches to have been called to select this service.
       throw new IllegalStateException("Secret: '" + secret + "' did not match pattern did you call matches(secret) first?");
     }
     String vaultPath = matcher.group(1);
-    String value = vaultClient.read(vaultPath, VALUE_KEY);
-    return new DecryptedPassword(value.toCharArray());
+    return new DecryptedValue(vaultClient.read(vaultPath, VALUE_KEY).toCharArray());
   }
 }

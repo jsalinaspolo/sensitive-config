@@ -1,6 +1,6 @@
 package com.senstiveconfig.service;
 
-import com.senstiveconfig.client.DecryptedPassword;
+import com.senstiveconfig.client.DecryptedValue;
 import com.senstiveconfig.vault.VaultClient;
 import org.junit.Test;
 
@@ -32,8 +32,8 @@ public class SensitiveConfigValueVaultServiceShould {
   public void readSecretFromVault() {
     when(client.read(SOME_PATH, VALUE_KEY)).thenReturn(SECRET_VALUE);
 
-    DecryptedPassword decryptedPassword = underTest.retrieveSecret(MATCHING_PATH);
+    DecryptedValue decryptedValue = underTest.retrieveSecret(MATCHING_PATH);
 
-    assertThat(decryptedPassword.getClearText()).isEqualTo(SECRET_VALUE.toCharArray());
+    assertThat(decryptedValue.value()).isEqualTo(SECRET_VALUE.toCharArray());
   }
 }
