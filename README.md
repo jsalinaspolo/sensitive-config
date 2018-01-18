@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mustaine/sensitive-config.svg?branch=master)](https://travis-ci.org/mustaine/sensitive-config)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jspcore/sensitive-config/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jspcore/sensitive-config)
 [![codecov](https://codecov.io/gh/mustaine/sensitive-config/branch/master/graph/badge.svg)](https://codecov.io/gh/mustaine/sensitive-config)
 
 # SenstiveConfig
