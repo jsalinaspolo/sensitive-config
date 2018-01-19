@@ -6,10 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.logcapture.junit.LogCaptureRule;
-import com.senstiveconfig.config.ConfigurationParser;
-import com.senstiveconfig.config.SensitiveVaultConfiguration;
-import com.senstiveconfig.config.ServiceConfiguration;
-import com.senstiveconfig.config.VaultConfiguration;
 import com.senstiveconfig.service.SensitiveConfigValueDelegatingService;
 import org.junit.Rule;
 import org.junit.Test;
@@ -61,6 +57,34 @@ public class ConfigurationParserShould {
     assertThat(configuration.getField()).isEqualTo("value");
     assertThat(configuration.getVaultConfiguration().getAddress()).isEqualTo("http://127.0.0.1:8200");
     assertThat(configuration.getVaultConfiguration().getTokenPath()).isEqualTo("/tmp/token");
+  }
+
+  @Test
+  public void readAndParseConfigurationFileWithoutVault() throws Exception {
+    String filePath = writeTempFileFromResource("simple-service-without-vault.yml");
+
+    SimpleConfiguration configuration = ConfigurationParser.withVaultConfiguration().createConfiguration(filePath, SimpleConfiguration.class);
+
+    assertThat(configuration.getField()).isEqualTo("value");
+    assertThat(configuration.getVaultConfiguration()).isNull();
+  }
+
+  @Test
+  public void readVaultConfiguration() throws IOException {
+    String filePath = writeTempFileFromResource(SIMPLE_SERVICE_YAML);
+
+    VaultConfiguration vaultConfiguration = ConfigurationParser.withVaultConfiguration().createConfiguration(filePath, VaultConfiguration.class);
+
+    assertThat(vaultConfiguration).isNotNull();
+  }
+
+  @Test
+  public void readVaultConfigurationAsNullWhenIsEmpty() throws IOException {
+    String filePath = writeTempFileFromResource("simple-service-without-vault.yml");
+
+    VaultConfiguration vaultConfiguration = ConfigurationParser.withVaultConfiguration().createConfiguration(filePath, VaultConfiguration.class);
+
+    assertThat(vaultConfiguration).isNull();
   }
 
   @Test

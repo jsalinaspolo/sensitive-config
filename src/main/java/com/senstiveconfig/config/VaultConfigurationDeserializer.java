@@ -13,6 +13,10 @@ public class VaultConfigurationDeserializer extends JsonDeserializer<VaultConfig
   @Override
   public VaultConfiguration deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     TreeNode vault = jp.readValueAsTree().at("/vaultConfiguration");
+    if (vault.isMissingNode()) {
+      return null;
+    }
+
     return new ObjectMapper().treeToValue(vault, VaultConfiguration.class);
   }
 }
